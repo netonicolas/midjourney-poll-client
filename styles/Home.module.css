@@ -3,7 +3,7 @@
 }
 
 .main {
-  min-height: 100vh;
+ /* min-height: 100vh;*/
   padding: 4rem 0;
   flex: 1;
   display: flex;
@@ -126,4 +126,18 @@
   .logo img {
     filter: invert(1);
   }
+}
+.title{
+  font-family: 'DM Sans';
+  font-weight: bold;
+}
+li.item{
+  list-style: none;
+  border: 1px solid green;
+  padding: 25px 100px;
+  border-radius: 25px;
+  font-size: 54px;
+  font-weight: 500;
+  font-family: 'DM Sans';
+
 }
