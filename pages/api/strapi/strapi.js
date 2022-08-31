@@ -7,11 +7,11 @@ export const poll = {
     return await res.json();
   },
   allWithImages: async () => {
-    const res = await fetch(domain+'/api/polls?populate[images][populate]=*');
+    const res = await fetch(domain+'/api/polls?populate[Full_image][populate]=*&populate[images][populate]=*');
     return await res.json();
   },
   findWithImages: async (id) => {
-    const res = await fetch(domain+'/api/polls/'+id+'?populate[images][populate]=*');
+    const res = await fetch(domain+'/api/polls/'+id+'?populate[Full_image][populate]=*&populate[images][populate]=*');
     return await res.json();
   }
 }

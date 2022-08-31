@@ -1,5 +1,6 @@
 .container {
     padding: 0 2rem;
+    margin-top: 50px;
 }
 
 .main {
@@ -132,8 +133,9 @@
     font-weight: bold;
 }
 .cat{
-    margin: 60px 0;
+    margin: 25px 0;
     list-style: none;
+    display: flex;
 }
 
 .vote{
@@ -142,25 +144,44 @@
     position: relative;
 }
 
+.voteImg{
+    position: relative;
+
+}
+
+.voteImg::after{
+    content: ' ';
+    z-index: 99999;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgb(0,0,0);
+    background: -moz-linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 50%, rgba(0,0,0,1) 95%);
+    background: -webkit-linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 50%, rgba(0,0,0,1) 95%);
+    background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0) 95%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#000000",endColorstr="#000000",GradientType=1);
+}
+
 .voteImg .voteImage{
     border-radius: 25px;
     margin: 2px;
+
 }
 .first{
     z-index: 99;
 }
-.first .voteImage{
-    box-shadow: 0 0 10px 10px #fff inset;
-}
 
-.second{
+.second.voted{
+    margin-top: 10px;
     margin-right: -35px;
 }
 
-.third{
+.third.voted{
+    margin-top: 10px;
     margin-left: -35px;
 }
-
 
 .second,
 .third{
@@ -184,6 +205,165 @@
     filter: invert(100%);
 }
 
+.second .containerNumber,
+.third .containerNumber{
+    bottom: -0px;
+}
+
 .containerNumber{
     position: absolute;
+    bottom: 0px;
+    z-index: 999999999;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 55px;
+    height: 45px;
+
+}
+
+.imgCat{
+    margin:0 8px !important;
+    border-radius: 25px;
+    cursor: pointer;
+}
+.subTitle{
+    margin:75px 0 50px 0;
+    font-size: 2rem;
+    font-family: "DM Sans";
+    font-weight: bold;
+    text-align: center;
+}
+
+
+.consigne{
+    font-family: "DM Sans";
+    font-size: 1.2rem;
+    margin: 0 0 50px 0;
+    text-align: center;
+}
+
+.divider{
+    width: calc(100%);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 1px;
+    background: green;
+    margin: 25px auto 25px auto;
+    border: 1px solid green;
+}
+
+.buttonContainer{
+    display: flex;
+    align-items: center;
+    margin: 75px 0 0 0
+}
+
+.button{
+    font-size: 1.5em;
+    border: 1px solid;
+    border-radius: 25px;
+    padding: 8px 35px;
+    margin: 0px 25px;
+    cursor: pointer;
+}
+
+.cancelButton{
+    color: red;
+    border-color: red;
+}
+
+.cancelButton:hover{
+    color: white;
+    border-color: red;
+    background: red;
+    transition: 0.25s;
+}
+
+.confirmer{
+    color: white;
+    border-color: green;
+    background: green;
+}
+
+.confirmer:hover{
+    color: green;
+    border-color: green;
+    background: white;
+    transition: 0.25s;
+}
+
+.containerFixedButton{
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    background: green;
+    display: flex;
+    justify-content: center;align-items: center;
+    cursor: pointer;
+    transition: 0.25s;
+}
+.fixedButton{
+    font-size: 2em;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.fixedButtonConfirm{
+    animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+    transform: translate3d(0, 0, 0);
+    perspective: 1000px;
+}
+
+@keyframes shake {
+    10%, 90% {
+        transform: translate3d(-1px, 0, 0);
+    }
+    20%, 80% {
+        transform: translate3d(2px, 0, 0);
+    }
+    30%, 50%, 70% {
+        transform: translate3d(-4px, 0, 0);
+    }
+    40%, 60% {
+        transform: translate3d(4px, 0, 0);
+    }
+}
+
+.datesContainer{
+    text-align: center;
+    margin-top: 50px;
+}
+
+.dateSentence{
+    font-family: "DM Sans";
+    font-size: 1.2em;
+    font-weight: 500;
+}
+.dateFormat{
+    font-family: "DM Sans";
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.fullImageContainer{
+    position: absolute;
+    right: 100px;
+    top: 50px;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid green;
+    background: green;
 }

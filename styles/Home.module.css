@@ -139,5 +139,16 @@ li.item{
   font-size: 54px;
   font-weight: 500;
   font-family: 'DM Sans';
+  text-align: center;
 
 }
+.dateSentence{
+  font-size: 20px;
+  font-family: 'DM Sans';
+}
+
+.dateFormat{
+  font-size: 20px;
+  font-family: 'DM Sans';
+}
+

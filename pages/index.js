@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { useEffect } from 'react';
 import styles from '../styles/Home.module.css';
 import {poll} from "./api/strapi/strapi";
+import {date} from "../utils/date";
+import {redirectToHome} from "../utils/redirect";
 
 export default function Home({polls}) {
   const { data: session } = useSession();
@@ -28,6 +30,14 @@ export default function Home({polls}) {
               <Link href={`/poll/${poll.id}`}>
                 <a className={styles.link}>
                   {poll.attributes.Titre}
+                  <div className={styles.datesContainer}>
+                    <div className={styles.dateContainer}>
+                      <p className={styles.dateSentence}>Heure de debut : <span className={styles.dateFormat}>{date.format(new Date(poll.attributes.heure_debut))}</span> </p>
+                    </div>
+                    <div className={styles.dateContainer}>
+                      <p className={styles.dateSentence}>Heure de fin : <span className={styles.dateFormat}>{date.format(new Date(poll.attributes.heure_fin))} </span></p>
+                    </div>
+                  </div>
                 </a>
               </Link>
             </li>
@@ -42,12 +52,7 @@ export default function Home({polls}) {
 export const getServerSideProps = async (context) => {
   const session = await getSession(context);
   if (session == null) {
-    return {
-      redirect: {
-        destination: '/auth/sign-in',
-        permanent: true,
-      },
-    };
+    return redirectToHome();
   }
   const polls = await poll.all();
   console.log('polls', polls.data);
