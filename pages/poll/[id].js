@@ -9,7 +9,7 @@ import secondImg from '../../asset/img/2.png';
 import thirdImg from '../../asset/img/3.png';
 import pictureIcon from '../../asset/icon/picture.png';
 import {date} from "../../utils/date";
-import {redirectToHome, redirectToIsClose, redirectToNotOpen} from "../../utils/redirect";
+import {redirectToHome, redirectToIsClose, redirectToNotOpen, redirectToSignIn} from "../../utils/redirect";
 import VotedImage from "../../component/poll/votedImage";
 import {scrollToTop} from "../../utils/utils";
 import { useRouter } from 'next/router'
@@ -17,8 +17,10 @@ import { useRouter } from 'next/router'
 export default function Poll({poll,img,votesInit}) {
   const { data: session } = useSession();
   const [votes, setVotes] = useState(votesInit);
+  const [fullScreenImg, setFullScreenImg] = useState(null);
   const hasVoted = votesInit.length > 0;
   const router = useRouter()
+
 
   useEffect(() => {
     if (session == null) return;
@@ -73,6 +75,11 @@ export default function Poll({poll,img,votesInit}) {
       }
       );
   }
+  const fullScreen = (img) => {
+    console.log("fullscreen",img);
+    setFullScreenImg(img);
+  }
+
   return (
     <div className={styles.container}>
       <Head>
@@ -121,8 +128,8 @@ export default function Poll({poll,img,votesInit}) {
         {hasVoted && <h2 className={styles.subTitle}>Merci Beaucoup de votre vote. </h2>}
         {!hasVoted && <div>
         <h2 className={styles.subTitle}> Cliquer sur une Image pour voter : </h2>
-        <p className={styles.consigne}>Il faut choisir 3 images pour voter pour le sondage, la première images auras 3 points, la deuxième aura deux points et la troisième aura 1 points.<br/>
-          Dans les 3 images que vous choisirez, vous ne pouvez choisir qu'une image de même type c'est à dire qu'une seul image par ligne. Chaque theme est séparé par un séparateur </p></div>}
+        <p className={styles.consigne}>Ce sondage a pour but d'élire la meilleur photo de profil que j'ai généré pour Julien. Ce sondage a pour uniquement pour le fun, le gagnant de ce sondage ne SERA PAS LA PHOTO DE PROFIL DE JULIEN. Il faut choisir 3 images pour voter pour le sondage, la première image auras 3 points, la deuxième aura deux points et la troisième aura 1 point.
+          Dans les 3 images que vous choisirez, vous ne pouvez choisir qu'une image de même type c'est à dire qu'une seul image par ligne. Chaque thème est séparé par un séparateur </p></div>}
 
         <div className={styles.list}>
           {img.map(img => (
@@ -132,6 +139,7 @@ export default function Poll({poll,img,votesInit}) {
                     <div className={styles.imgCatContainer}>
                       <Image className={styles.imgCat} width={156}  height={156} onClick={()=>clickImage(i)}  alt={i.attributes.Image.data.attributes.alternativeText} src={"http://localhost:1337"+i.attributes.Image.data.attributes.formats.thumbnail.url}/>
                       { displayIsVoted(votes,i)}
+                      {votes.indexOf(i)===-1 && <div className={styles.fullScreenContainerButton}><div onClick={()=>{fullScreen(i)}} className={styles.fullScreenButton}></div></div>}
                     </div>
                   )}
             </div>
@@ -139,6 +147,13 @@ export default function Poll({poll,img,votesInit}) {
             </div>
           ))}
         </div>
+        { fullScreenImg &&
+          <div className={styles.fullScreenImgContainer}>
+            <div onClick={()=>setFullScreenImg(null)} className={styles.closeBtn}>+</div>
+            <div className={styles.fullScreenImg}>
+              <Image src={"http://localhost:1337"+fullScreenImg.attributes.Image.data.attributes.formats.large.url} width={fullScreenImg.attributes.Image.data.attributes.formats.large.width}   layout={"fill"}  objectFit="contain" quality={100}  height={fullScreenImg.attributes.Image.data.attributes.formats.large.height} />
+            </div>
+          </div> }
       </main>
     </div>
 
@@ -149,7 +164,7 @@ export const getServerSideProps = async (context) => {
 
   const session = await getSession(context);
   if (session == null) {
-    return redirectToHome();
+    return redirectToSignIn();
   }
   const p = await poll.findWithImages(context.params.id);
   const c = await category.all();

@@ -1,5 +1,7 @@
 import Link from "next/link";
 import styles from "../../styles/error.module.css";
+import {getSession} from "next-auth/react";
+import {redirectToSignIn} from "../../utils/redirect";
 export default function notOpen(){
   return (
     <div className={styles.container}>
@@ -7,4 +9,13 @@ export default function notOpen(){
       <span class={styles.link}><Link href={'/'} >Retour à l'accueil</Link></span>
     </div>
   );
+}
+
+
+export const getServerSideProps = async (context) => {
+
+  const session = await getSession(context);
+  if (session == null) {
+    return redirectToSignIn();
+  }
 }

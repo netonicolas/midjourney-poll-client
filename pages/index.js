@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import styles from '../styles/Home.module.css';
 import {poll} from "./api/strapi/strapi";
 import {date} from "../utils/date";
-import {redirectToHome} from "../utils/redirect";
+import {redirectToHome, redirectToSignIn} from "../utils/redirect";
 
 export default function Home({polls}) {
   const { data: session } = useSession();
@@ -51,7 +51,7 @@ export default function Home({polls}) {
 export const getServerSideProps = async (context) => {
   const session = await getSession(context);
   if (session == null) {
-    return redirectToHome();
+    return redirectToSignIn();
   }
   const polls = await poll.all();
 

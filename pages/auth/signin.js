@@ -25,11 +25,11 @@ export default function SignIn() {
       <Head>
         <title>Strapi - Next - NextAuth</title>
       </Head>
-      <h1>Sign In</h1>
+      <h1 className={styles.title}>Sign In</h1>
       <form className={styles.form} onSubmit={onSubmit}>
-        <label htmlFor="email">Email</label>
+        <label  className={styles.label} htmlFor="email">Email</label>
         <input id="email" name="email" type="email" className={styles.input} />
-        <label
+        <label className={styles.label}
           style={{
             marginTop: 10,
           }}
