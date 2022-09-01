@@ -3,7 +3,6 @@ import {poll, category, vote} from "../api/strapi/strapi";
 import {useEffect, useState} from "react";
 import styles from "../../styles/poll.module.css";
 import Head from "next/head";
-import Link from "next/link";
 import Image from "next/image";
 import firstImg from '../../asset/img/1.png';
 import secondImg from '../../asset/img/2.png';
@@ -13,11 +12,14 @@ import {date} from "../../utils/date";
 import {redirectToHome, redirectToIsClose, redirectToNotOpen} from "../../utils/redirect";
 import VotedImage from "../../component/poll/votedImage";
 import {scrollToTop} from "../../utils/utils";
+import { useRouter } from 'next/router'
 
 export default function Poll({poll,img,votesInit}) {
   const { data: session } = useSession();
   const [votes, setVotes] = useState(votesInit);
   const hasVoted = votesInit.length > 0;
+  const router = useRouter()
+
   useEffect(() => {
     if (session == null) return;
   }, [session]);
@@ -29,7 +31,7 @@ export default function Poll({poll,img,votesInit}) {
   const clickImage = (i) => {
     if(hasVoted)return;
     const v = [...votes];
-
+    i.value = v.length;
     const index = v.findIndex(vote => vote.attributes.category.data.id === i.attributes.category.data.id);
     if(!v.includes(i) && index===-1){
       v.push(i);
@@ -54,7 +56,23 @@ export default function Poll({poll,img,votesInit}) {
     return null;
     }
   }
-  console.log("votes", votesInit);
+
+  const confirmVote = () => {
+    if(votes.length === 0){
+      alert("Veuillez choisir au moins une image");
+      return;
+    }
+    const promises = votes.map((v) => vote.create(poll.id, v.id,session.id,votes.length - v.value));
+
+    Promise.all(promises).then(() => {
+        setVotes([]);
+      }).catch(err => {
+        console.log(err);
+      }).finally(() => {
+        router.reload()
+      }
+      );
+  }
   return (
     <div className={styles.container}>
       <Head>
@@ -97,7 +115,7 @@ export default function Poll({poll,img,votesInit}) {
         </div>
         {!hasVoted && votes.length>0 && <div className={styles.buttonContainer}>
           <div onClick={cancelVote} className={[styles.cancelButton,styles.button].join(" ") }>Annuler</div>
-          {votes.length>2 && <div className={[styles.confirmer, styles.button].join(" ")}>Confirmer</div>}
+          {votes.length>2 && <div onClick={confirmVote} className={[styles.confirmer, styles.button].join(" ")}>Confirmer</div>}
         </div>
         }
         {hasVoted && <h2 className={styles.subTitle}>Merci Beaucoup de votre vote. </h2>}

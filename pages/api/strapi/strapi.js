@@ -1,3 +1,5 @@
+import {getSession} from "next-auth/react";
+
 const domain = 'http://localhost:1337';
 
 
@@ -24,16 +26,19 @@ export const category = {
 }
 
 export const vote = {
-  create: async (pollId, categoryId) => {
+  create: async (pollId, img,userId,value) => {
+
     const res = await fetch(domain+'/api/votes', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
+      body: JSON.stringify({data:{
         poll: pollId,
-        category: categoryId
-      })
+        Image: img,
+        user: userId,
+        value:value
+      }})
     });
     return await res.json();
   },
