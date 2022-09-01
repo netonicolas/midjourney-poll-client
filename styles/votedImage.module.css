@@ -1,0 +1,30 @@
+.second .voteImage,
+.third .voteImage{
+    z-index: 9;
+    box-shadow: 0 0 3px 3px #191717;
+}
+
+.voteImage{
+    border-radius: 25px;
+    margin: 2px;
+}
+
+.second .containerNumber,
+.third .containerNumber{
+    bottom: -0px;
+}
+
+.numberImg{
+    filter: invert(100%);
+}
+
+.containerNumber{
+    position: absolute;
+    bottom: 0px;
+    z-index: 999999999;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 55px;
+    height: 45px;
+
+}

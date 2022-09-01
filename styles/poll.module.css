@@ -164,11 +164,6 @@
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#000000",endColorstr="#000000",GradientType=1);
 }
 
-.voteImg .voteImage{
-    border-radius: 25px;
-    margin: 2px;
-
-}
 .first{
     z-index: 99;
 }
@@ -187,40 +182,6 @@
 .third{
     z-index: 9;
 }
-
-.second .voteImage,
-.third .voteImage{
-    z-index: 9;
-    box-shadow: 0 0 3px 3px #191717;
-}
-
-.emptyVote{
-    min-height: 299px;
-    width: 299px;
-    border:1px solid green;
-    border-radius: 25px;
-}
-
-.numberImg{
-    filter: invert(100%);
-}
-
-.second .containerNumber,
-.third .containerNumber{
-    bottom: -0px;
-}
-
-.containerNumber{
-    position: absolute;
-    bottom: 0px;
-    z-index: 999999999;
-    left: 50%;
-    transform: translate(-50%, 0);
-    width: 55px;
-    height: 45px;
-
-}
-
 .imgCat{
     margin:0 8px !important;
     border-radius: 25px;
@@ -366,4 +327,50 @@
     align-items: center;
     border: 1px solid green;
     background: green;
+}
+.imgCatContainer{
+    position: relative;
+}
+
+.containerIsVoted{
+    position: absolute;
+    height: 100%;
+    width: calc(100% + 4px);
+    top: 0;
+    left: 4px;
+
+    background: #000;
+    opacity: 0.7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999999;
+    border-radius: 25px;
+}
+
+.imgIsvoted{
+    z-index: 9999999;
+    filter: invert(100%);
+}
+
+.emptyVote{
+    min-height: 299px;
+    width: 299px;
+    border:1px solid green;
+    border-radius: 25px;
+}
+
+.containerNumber{
+    position: absolute;
+    bottom: 0px;
+    z-index: 999999999;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 55px;
+    height: 45px;
+
+}
+
+.numberImg{
+    filter: invert(100%);
 }

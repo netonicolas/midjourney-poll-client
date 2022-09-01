@@ -45,7 +45,6 @@ export default function Home({polls}) {
         </ul>
       </main>
     </div>
-
   );
 }
 
@@ -55,6 +54,7 @@ export const getServerSideProps = async (context) => {
     return redirectToHome();
   }
   const polls = await poll.all();
+
   console.log('polls', polls.data);
   return {
     props: {
@@ -62,3 +62,5 @@ export const getServerSideProps = async (context) => {
     },
   };
 };
+
+
