@@ -55,7 +55,6 @@ export const getServerSideProps = async (context) => {
   }
   const polls = await poll.all();
 
-  console.log('polls', polls.data);
   return {
     props: {
       polls : polls.data

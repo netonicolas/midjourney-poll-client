@@ -1,6 +1,4 @@
-import {getSession} from "next-auth/react";
-
-const domain = 'http://localhost:1337';
+const domain = {process.env.STRAPI_URL;
 
 
 export const poll = {

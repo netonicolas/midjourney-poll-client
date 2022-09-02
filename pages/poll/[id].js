@@ -88,7 +88,7 @@ export default function Poll({poll,img,votesInit}) {
       <h1 className={styles.title}>
         Sondage {poll.attributes.Titre} :
       </h1>
-      <a href={"http://localhost:1337"+poll.attributes.Full_image.data.attributes.url} target='_blank'>
+      <a href={{process.env.STRAPI_URL+poll.attributes.Full_image.data.attributes.url} target='_blank'>
         <div className={styles.fullImageContainer}>
             <Image src={pictureIcon} className={styles.pictureIcon} width={25} height={25}/>
         </div>
@@ -151,7 +151,7 @@ export default function Poll({poll,img,votesInit}) {
           <div className={styles.fullScreenImgContainer}>
             <div onClick={()=>setFullScreenImg(null)} className={styles.closeBtn}>+</div>
             <div className={styles.fullScreenImg}>
-              <Image src={"http://localhost:1337"+fullScreenImg.attributes.Image.data.attributes.formats.large.url} width={fullScreenImg.attributes.Image.data.attributes.formats.large.width}   layout={"fill"}  objectFit="contain" quality={100}  height={fullScreenImg.attributes.Image.data.attributes.formats.large.height} />
+              <Image src={{process.env.STRAPI_URL+fullScreenImg.attributes.Image.data.attributes.formats.large.url} width={fullScreenImg.attributes.Image.data.attributes.formats.large.width}   layout={"fill"}  objectFit="contain" quality={100}  height={fullScreenImg.attributes.Image.data.attributes.formats.large.height} />
             </div>
           </div> }
       </main>
