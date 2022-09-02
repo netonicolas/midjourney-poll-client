@@ -14,13 +14,15 @@ import VotedImage from "../../component/poll/votedImage";
 import {scrollToTop} from "../../utils/utils";
 import { useRouter } from 'next/router'
 
+
 export default function Poll({poll,img,votesInit}) {
   const { data: session } = useSession();
   const [votes, setVotes] = useState(votesInit);
   const [fullScreenImg, setFullScreenImg] = useState(null);
   const hasVoted = votesInit.length > 0;
-  const router = useRouter()
-
+  const router = useRouter();
+  const domain = process.env.STRAPI_URL;
+  console.log("domain",domain);
 
   useEffect(() => {
     if (session == null) return;
@@ -83,12 +85,13 @@ export default function Poll({poll,img,votesInit}) {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Poll {poll.attributes.Titre}</title>
+
       </Head>
       <h1 className={styles.title}>
+
         Sondage {poll.attributes.Titre} :
       </h1>
-      <a href={{process.env.STRAPI_URL+poll.attributes.Full_image.data.attributes.url} target='_blank'>
+      <a href={domain+poll.attributes.Full_image.data.attributes.url} rel="noreferrer" target='_blank'>
         <div className={styles.fullImageContainer}>
             <Image src={pictureIcon} className={styles.pictureIcon} width={25} height={25}/>
         </div>
@@ -128,16 +131,16 @@ export default function Poll({poll,img,votesInit}) {
         {hasVoted && <h2 className={styles.subTitle}>Merci Beaucoup de votre vote. </h2>}
         {!hasVoted && <div>
         <h2 className={styles.subTitle}> Cliquer sur une Image pour voter : </h2>
-        <p className={styles.consigne}>Ce sondage a pour but d'élire la meilleur photo de profil que j'ai généré pour Julien. Ce sondage a pour uniquement pour le fun, le gagnant de ce sondage ne SERA PAS LA PHOTO DE PROFIL DE JULIEN. Il faut choisir 3 images pour voter pour le sondage, la première image auras 3 points, la deuxième aura deux points et la troisième aura 1 point.
-          Dans les 3 images que vous choisirez, vous ne pouvez choisir qu'une image de même type c'est à dire qu'une seul image par ligne. Chaque thème est séparé par un séparateur </p></div>}
+        <p className={styles.consigne}>Ce sondage a pour but d&lsquo;élire la meilleur photo de profil que j&lsquo;ai généré pour Julien. Ce sondage a pour uniquement pour le fun, le gagnant de ce sondage ne SERA PAS LA PHOTO DE PROFIL DE JULIEN. Il faut choisir 3 images pour voter pour le sondage, la première image auras 3 points, la deuxième aura deux points et la troisième aura 1 point.
+          Dans les 3 images que vous choisirez, vous ne pouvez choisir qu&lsquo;une image de même type c&lsquo;est à dire qu&lsquo;une seul image par ligne. Chaque thème est séparé par un séparateur </p></div>}
 
         <div className={styles.list}>
           {img.map(img => (
-            <div>
+            <div key={img.id +20}>
             <div key={img.id} className={styles.cat}>
                   {img.img.map(i =>
-                    <div className={styles.imgCatContainer}>
-                      <Image className={styles.imgCat} width={156}  height={156} onClick={()=>clickImage(i)}  alt={i.attributes.Image.data.attributes.alternativeText} src={"http://localhost:1337"+i.attributes.Image.data.attributes.formats.thumbnail.url}/>
+                    <div key={i.id} className={styles.imgCatContainer}>
+                      <Image className={styles.imgCat} width={156}  height={156} onClick={()=>clickImage(i)}  alt={i.attributes.Image.data.attributes.alternativeText} src={process.env.STRAPI_URL+i.attributes.Image.data.attributes.formats.thumbnail.url}/>
                       { displayIsVoted(votes,i)}
                       {votes.indexOf(i)===-1 && <div className={styles.fullScreenContainerButton}><div onClick={()=>{fullScreen(i)}} className={styles.fullScreenButton}></div></div>}
                     </div>
@@ -151,7 +154,8 @@ export default function Poll({poll,img,votesInit}) {
           <div className={styles.fullScreenImgContainer}>
             <div onClick={()=>setFullScreenImg(null)} className={styles.closeBtn}>+</div>
             <div className={styles.fullScreenImg}>
-              <Image src={{process.env.STRAPI_URL+fullScreenImg.attributes.Image.data.attributes.formats.large.url} width={fullScreenImg.attributes.Image.data.attributes.formats.large.width}   layout={"fill"}  objectFit="contain" quality={100}  height={fullScreenImg.attributes.Image.data.attributes.formats.large.height} />
+              <h3>{domain}</h3>
+              <Image src={`${domain}${fullScreenImg.attributes.Image.data.attributes.formats.large.url}`} width={fullScreenImg.attributes.Image.data.attributes.formats.large.width}   layout={"fill"}  objectFit="contain" quality={100}  height={fullScreenImg.attributes.Image.data.attributes.formats.large.height} />
             </div>
           </div> }
       </main>

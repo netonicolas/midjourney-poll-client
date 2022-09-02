@@ -1,4 +1,4 @@
-const domain = {process.env.STRAPI_URL;
+const domain = process.env.STRAPI_URL;
 
 
 export const poll = {

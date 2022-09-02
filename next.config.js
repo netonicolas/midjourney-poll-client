@@ -4,6 +4,9 @@ const nextConfig = {
   swcMinify: true,
   images: {
     domains: ['localhost'],
+  },
+  env:{
+    STRAPI_URL: process.env.STRAPI_URL,
   }
 }
 

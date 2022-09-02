@@ -7,7 +7,7 @@ export default function isClose(){
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Trop tard le sondage est fermé</h1>
-      <span class={styles.link}><Link  href={'/'} >Retour à l'accueil</Link></span>
+      <span className={styles.link}><Link  href={'/'} >Retour à l&apos;accueil</Link></span>
     </div>
   );
 }
