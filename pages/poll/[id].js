@@ -154,7 +154,6 @@ export default function Poll({poll,img,votesInit}) {
           <div className={styles.fullScreenImgContainer}>
             <div onClick={()=>setFullScreenImg(null)} className={styles.closeBtn}>+</div>
             <div className={styles.fullScreenImg}>
-              <h3>{domain}</h3>
               <Image src={`${domain}${fullScreenImg.attributes.Image.data.attributes.formats.large.url}`} width={fullScreenImg.attributes.Image.data.attributes.formats.large.width}   layout={"fill"}  objectFit="contain" quality={100}  height={fullScreenImg.attributes.Image.data.attributes.formats.large.height} />
             </div>
           </div> }
