@@ -179,7 +179,8 @@ export const getServerSideProps = async (context) => {
     return redirectToIsClose();
   }
   const votes= await vote.findByUserIdAndPollId(session.id,p.data.id);
-  const votesSorted = votes.data.sort((a,b)=>{
+ console.log("votes",votes);
+ const votesSorted = votes.data.filter((a)=>a.attributes.user.data.id === session.id).sort((a,b)=>{
     return a.attributes.value>b.attributes.value;
   });
   const v = votesSorted.map((v)=>v.attributes.Image.data);

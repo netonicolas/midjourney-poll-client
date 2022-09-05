@@ -45,7 +45,7 @@ export const vote = {
     return await res.json();
   },
   findByUserIdAndPollId: async (userId, pollId) => {
-    const res = await fetch(domain+'/api/votes?filter[user][$eq]='+userId+'&filter[poll][$eq]='+pollId+'&populate[Image][populate]=*');
+    const res = await fetch(domain+'/api/votes?filter[$and][0][user][$eq]='+userId+'&filter[$and][1][poll][$eq]='+pollId+'&populate[Image][populate]=*&populate[user][populate]=*');
     return await res.json();
   }
 }
