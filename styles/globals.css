@@ -28,7 +28,7 @@ a {
 
 table {
   width: 800px;
-  margin-top: 80px;
+  /*margin-top: 80px;*/
   /* border: 1px solid #343a40; */
   border-collapse: collapse;
   font-size: 18px;

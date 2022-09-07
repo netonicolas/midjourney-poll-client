@@ -8,12 +8,12 @@ import firstImg from "../../asset/img/1.png";
 import thirdImg from "../../asset/img/3.png";
 import {redirectToPoll} from "../../utils/redirect";
 
-export default function result({poll,vote_groupBy}){
-
+export default function result({poll,vote_groupBy,nbVoters}){
+  console.log(nbVoters);
   return (
     <div className={styles.main}>
-      <h1 >Résultat du sondage</h1>
-      <h2>{poll.attributes.title}</h2>
+      <h1 >Résultat du sondage </h1>
+      <h2>{poll.attributes.Titre}</h2>
 
       <div className={styles.vote}>
         <div className={[styles.voteImg,styles.voted].join(" ")}>
@@ -29,8 +29,10 @@ export default function result({poll,vote_groupBy}){
           <div>{vote_groupBy[2].value}</div>
         </div>
       </div>
-
       <div>
+        <div style={{display:"flex",justifyContent:"center",alignItems:"center",marginTop:"50px",marginBottom:"0"}}>
+          <h2>Nombre de votant : {nbVoters}</h2>
+        </div>
         <div className={styles.vote}>
           <table>
             <thead>
@@ -66,13 +68,15 @@ export const getServerSideProps = async (context) => {
 
   const p = await poll.findWithImages(context.params.id);
   const votes = await vote.findByPollId(context.params.id);
+
   if(!isClosed(p.data.attributes.heure_fin)){
     return redirectToPoll(context.params.id);
   }
   return {
     props: {
       poll : p.data,
-      vote_groupBy : groupBy_Vote(votes.data)
+      vote_groupBy : groupBy_Vote(votes.data),
+      nbVoters : countNbVoters(votes.data)
     }
   }
 }
@@ -87,6 +91,15 @@ function groupBy_Vote(votes){
     }
     return acc;
   },[]).sort((d1,d2)=>d1.value-d2.value).reverse();
+}
+
+function countNbVoters(votes){
+  return votes.reduce((acc,cur)=>{
+    if(!acc.includes(cur.attributes.user.data.id)){
+      acc.push(cur.attributes.user.data.id);
+    }
+    return acc;
+  },[]).length;
 }
 
 function isClosed(dateClose){

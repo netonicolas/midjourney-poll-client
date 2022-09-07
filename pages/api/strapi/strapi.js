@@ -49,7 +49,7 @@ export const vote = {
     return await res.json();
   },
   findByPollId: async (pollId) => {
-    const res = await fetch(domain+'/api/votes?filter[poll][$eq]='+pollId+'&populate[Image][populate]=*');
+    const res = await fetch(domain+'/api/votes?filter[poll][$eq]='+pollId+'&populate[Image][populate]=*&populate[user][populate]=*');
     return await res.json();
   }
 }
