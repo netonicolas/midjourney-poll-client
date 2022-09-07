@@ -25,3 +25,33 @@ a {
     background: black;
   }
 }
+
+table {
+  width: 800px;
+  margin-top: 80px;
+  /* border: 1px solid #343a40; */
+  border-collapse: collapse;
+  font-size: 18px;
+}
+
+th,
+td {
+  /* border: 1px solid #343a40; */
+  padding: 16px 24px;
+  text-align: left;
+}
+
+thead th {
+  background-color: green;
+  color: #ffffff;
+  width: 25%;
+}
+
+tbody tr:nth-child(even) {
+
+  background-color: #333e48;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #202325;
+}

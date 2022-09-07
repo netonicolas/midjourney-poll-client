@@ -10,6 +10,10 @@ export const redirectToIsClose = () =>{
 export const redirectToNotOpen = () =>{
   return redirectTo('/error/notOpen');
 }
+export const redirectToResult = (id) =>{
+  return redirectTo('/result/'+id);
+}
+
 const redirectTo = (path) => {
   return {
     redirect: {

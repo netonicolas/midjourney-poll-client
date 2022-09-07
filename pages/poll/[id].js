@@ -9,7 +9,13 @@ import secondImg from '../../asset/img/2.png';
 import thirdImg from '../../asset/img/3.png';
 import pictureIcon from '../../asset/icon/picture.png';
 import {date} from "../../utils/date";
-import {redirectToHome, redirectToIsClose, redirectToNotOpen, redirectToSignIn} from "../../utils/redirect";
+import {
+  redirectToHome,
+  redirectToIsClose,
+  redirectToNotOpen,
+  redirectToResult,
+  redirectToSignIn
+} from "../../utils/redirect";
 import VotedImage from "../../component/poll/votedImage";
 import {scrollToTop} from "../../utils/utils";
 import { useRouter } from 'next/router'
@@ -176,10 +182,10 @@ export const getServerSideProps = async (context) => {
     return redirectToNotOpen();
   }
   if(isClosed(p.data.attributes.heure_fin)){
-    return redirectToIsClose();
+    return redirectToResult(context.params.id);
   }
   const votes= await vote.findByUserIdAndPollId(session.id,p.data.id);
- console.log("votes",votes);
+
  const votesSorted = votes.data.filter((a)=>a.attributes.user.data.id === session.id).sort((a,b)=>{
     return a.attributes.value>b.attributes.value;
   });
