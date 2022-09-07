@@ -14,6 +14,10 @@ export const redirectToResult = (id) =>{
   return redirectTo('/result/'+id);
 }
 
+export const redirectToPoll = (id) =>{
+  return redirectTo('/poll/'+id);
+}
+
 const redirectTo = (path) => {
   return {
     redirect: {

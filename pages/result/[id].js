@@ -6,6 +6,7 @@ import secondImg from "../../asset/img/2.png";
 import VotedImage from "../../component/poll/votedImage";
 import firstImg from "../../asset/img/1.png";
 import thirdImg from "../../asset/img/3.png";
+import {redirectToPoll} from "../../utils/redirect";
 
 export default function result({poll,vote_groupBy}){
 
@@ -65,7 +66,9 @@ export const getServerSideProps = async (context) => {
 
   const p = await poll.findWithImages(context.params.id);
   const votes = await vote.findByPollId(context.params.id);
-
+  if(!isClosed(p.data.attributes.heure_fin)){
+    return redirectToPoll(context.params.id);
+  }
   return {
     props: {
       poll : p.data,
@@ -84,6 +87,12 @@ function groupBy_Vote(votes){
     }
     return acc;
   },[]).sort((d1,d2)=>d1.value-d2.value).reverse();
+}
+
+function isClosed(dateClose){
+  const now = new Date();
+  const close = new Date(dateClose);
+  return now >= close;
 }
 
 
