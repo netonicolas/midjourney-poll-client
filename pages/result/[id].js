@@ -6,7 +6,7 @@ import secondImg from "../../asset/img/2.png";
 import VotedImage from "../../component/poll/votedImage";
 import firstImg from "../../asset/img/1.png";
 import thirdImg from "../../asset/img/3.png";
-import {redirectToPoll} from "../../utils/redirect";
+import {redirectToPoll,redirectToSignIn} from "../../utils/redirect";
 
 export default function result({poll,vote_groupBy,nbVoters}){
   console.log(nbVoters);
