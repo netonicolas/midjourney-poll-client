@@ -1,5 +1,5 @@
 const domain = process.env.STRAPI_URL;
-
+import {getSession, useSession} from "next-auth/react";
 
 export const poll = {
   all: async () => {
@@ -44,12 +44,16 @@ export const vote = {
     const res = await fetch(domain+'/api/votes');
     return await res.json();
   },
-  findByUserIdAndPollId: async (userId, pollId) => {
-    const res = await fetch(domain+'/api/votes?filter[$and][0][user][$eq]='+userId+'&filter[$and][1][poll][$eq]='+pollId+'&populate[Image][populate]=*&populate[user][populate]=*');
+  findByUserIdAndPollId: async (session, pollId) => {
+    const res = await fetch(domain+`/api/votes/poll/${pollId}/user/${session.id}`,{
+      headers: {
+        'authorization': `Bearer ${session.jwt}`
+      }
+    });
     return await res.json();
   },
   findByPollId: async (pollId) => {
-    const res = await fetch(domain+'/api/votes?filter[poll][$eq]='+pollId+'&populate[Image][populate]=*&populate[user][populate]=*');
-    return await res.json();
+   const res = await fetch(domain+`/api/votes/poll/${pollId}`);
+   return await res.json();
   }
 }

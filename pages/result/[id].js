@@ -8,24 +8,23 @@ import firstImg from "../../asset/img/1.png";
 import thirdImg from "../../asset/img/3.png";
 import {redirectToPoll,redirectToSignIn} from "../../utils/redirect";
 
-export default function result({poll,vote_groupBy,nbVoters}){
-  console.log(nbVoters);
+export default function result({poll,vote_groupBy,nbVoters}){  console.log("aze",vote_groupBy[1].image);
   return (
-    <div className={styles.main}>
+   <div className={styles.main}>
       <h1 >Résultat du sondage </h1>
       <h2>{poll.attributes.Titre}</h2>
 
       <div className={styles.vote}>
         <div className={[styles.voteImg,styles.voted].join(" ")}>
-          <VotedImage img={vote_groupBy[1].image.attributes.Image.data.attributes.formats.medium.url} alt={vote_groupBy[1].image.attributes.Image.data.attributes.url} imgNumber={secondImg} />
+          <VotedImage img={vote_groupBy[1].image.Image.formats.medium.url} alt={vote_groupBy[1].image.Image.url} imgNumber={secondImg} />
           <div>{vote_groupBy[1].value}</div>
         </div>
         <div className={[styles.voteImg, styles.first].join(" ")}>
-          <VotedImage img={vote_groupBy[0].image.attributes.Image.data.attributes.formats.medium.url} alt={vote_groupBy[0].image.attributes.Image.data.attributes.url} imgNumber={firstImg} />
+          <VotedImage img={vote_groupBy[0].image.Image.formats.medium.url} alt={vote_groupBy[0].image.Image.url} imgNumber={firstImg} />
           <div>{vote_groupBy[0].value}</div>
         </div>
         <div className={ [styles.voteImg,styles.voted].join(" ")}>
-          <VotedImage img={vote_groupBy[2].image.attributes.Image.data.attributes.formats.medium.url} alt={vote_groupBy[2].image.attributes.Image.data.attributes.url} imgNumber={thirdImg} />
+          <VotedImage img={vote_groupBy[2].image.Image.formats.medium.url} alt={vote_groupBy[2].image.Image.url} imgNumber={thirdImg} />
           <div>{vote_groupBy[2].value}</div>
         </div>
       </div>
@@ -46,7 +45,7 @@ export default function result({poll,vote_groupBy,nbVoters}){
             {vote_groupBy.map((vote,index)=>(
               <tr key={index}>
                 <td>{index + 1}</td>
-                <td><Image style={{borderRadius:"15px"}}  src={ process.env.STRAPI_URL + vote.image.attributes.Image.data.attributes.formats.medium.url} alt={"lourd"} width={100} height={100} /></td>
+                <td><Image style={{borderRadius:"15px"}}  src={ process.env.STRAPI_URL + vote.image.Image.formats.medium.url} alt={"lourd"} width={100} height={100} /></td>
                 <td>{vote.value}</td>
               </tr>
             ))}
@@ -55,6 +54,7 @@ export default function result({poll,vote_groupBy,nbVoters}){
       </div>
       </div>
     </div>
+
   )
 
 
@@ -68,7 +68,7 @@ export const getServerSideProps = async (context) => {
 
   const p = await poll.findWithImages(context.params.id);
   const votes = await vote.findByPollId(context.params.id);
-
+  console .log("votes",votes);
   if(!isClosed(p.data.attributes.heure_fin)){
     return redirectToPoll(context.params.id);
   }
@@ -83,11 +83,12 @@ export const getServerSideProps = async (context) => {
 
 function groupBy_Vote(votes){
   return votes.reduce((acc,cur) => {
-    const index = acc.findIndex((i)=>i.image.id===cur.attributes.Image.data.id);
+    const index = acc.findIndex((i)=>i.image.id===cur.Image.id);
+    console.log("curr",cur);
     if(index === -1){
-      acc.push({ value : cur.attributes.value, image : cur.attributes.Image.data});
+      acc.push({ value : cur.value, image : cur.Image});
     }else{
-      acc[index].value += cur.attributes.value;
+      acc[index].value += cur.value;
     }
     return acc;
   },[]).sort((d1,d2)=>d1.value-d2.value).reverse();
@@ -95,8 +96,8 @@ function groupBy_Vote(votes){
 
 function countNbVoters(votes){
   return votes.reduce((acc,cur)=>{
-    if(!acc.includes(cur.attributes.user.data.id)){
-      acc.push(cur.attributes.user.data.id);
+    if(!acc.includes(cur.user.id)){
+      acc.push(cur.user.id);
     }
     return acc;
   },[]).length;
