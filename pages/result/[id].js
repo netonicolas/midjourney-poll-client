@@ -68,8 +68,8 @@ export const getServerSideProps = async (context) => {
 
   const p = await poll.findWithImages(context.params.id);
   const votes = await vote.findByPollId(context.params.id);
-  console .log("votes",votes);
-  if(!isClosed(p.data.attributes.heure_fin)){
+
+  if(session.id!==1  && !isClosed(p.data.attributes.heure_fin) ){
     return redirectToPoll(context.params.id);
   }
   return {
